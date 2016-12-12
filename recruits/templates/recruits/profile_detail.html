@@ -1,0 +1,15 @@
+{% extends "recruits/base.html" %}
+
+
+{% block content %}
+  <h3>Profile No.{{ profile.id }}</h3>
+  <br>
+  <ul>
+    <h2>Name : {{ profile.name }}</h2>
+    <p>Gender : {{ profile.gender }}</p>
+    <p>Email : {{ profile.email }}</p>
+    <p>Skillset : {{ profile.skillset }}</p>
+    <p>Consultancy : {{ profile.consultancy }}</p>
+    <!-- <p>Date: {{ now|date }}</p> -->
+  </ul>
+{% endblock %}
