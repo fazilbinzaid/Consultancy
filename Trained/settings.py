@@ -35,12 +35,14 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    # 'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # My Applications
     'recruits',
     # Third Party Apps
     'crispy_forms',
+    # 'registration',
 
 )
 
@@ -111,4 +113,17 @@ STATICFILES_DIRS = (
         )
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "static/video")
+
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+AUTH_USER_MODEL = 'recruits.CustomUser'
+
+AUTHENTICATION_BACKENDS = { 'recruits.backends.CustomUserAuth', }
+
+# AUTHENTICATION_CLASSES = { ''}
+
+# ACCOUNT_ACTIVATION_DAYS = 1
+# REGISTRATION_AUTO_LOGIN = False
+# SITE_ID = 1

@@ -1,15 +1,28 @@
 {% extends "recruits/base.html" %}
+{% load static %}
+<link type="text/css" rel="{% static 'css/detail.css' %}"></link>
 
+<style>
+{% block style %}{% endblock %}
+</style>
 
 {% block content %}
-  <h3>Profile No.{{ profile.id }}</h3>
-  <br>
-  <ul>
-    <h2>Name : {{ profile.name }}</h2>
-    <p>Gender : {{ profile.gender }}</p>
-    <p>Email : {{ profile.email }}</p>
-    <p>Skillset : {{ profile.skillset }}</p>
-    <p>Consultancy : {{ profile.consultancy }}</p>
-    <!-- <p>Date: {{ now|date }}</p> -->
-  </ul>
+<div class='jumbotron'>
+  <h4>Profile No.{{ profile.id }}</h4>
+  <div class='col-sm-7 col-sm-offset-1'>
+    <br>
+    <br>
+    <ul>
+      <h3>Name : {{ profile.name }}</h3>
+      <br>
+      <p>Email : {{ profile.email }}</p>
+      <p>Experience in Django (Years) : {{ profile.django_exp }}</p>
+      <p>Experience in Other Frameworks (Years) : {{ profile.angular_exp }}</p>
+      <!-- <p>Consultancy : {{ profile.consultancy }}</p> -->
+    </ul>
+  </div>
+</div>
+<div class='col-sm-4' style='background-color:black;height:300px'>
+
+</div>
 {% endblock %}

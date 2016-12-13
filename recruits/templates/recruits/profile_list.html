@@ -2,6 +2,7 @@
 
 
 {% block content %}
+<a class='pull-right' href='{% url 'recruits:profile-create' %}'>Create Profile</a>
   <h2>Profiles</h2>
   <ul>
     {% for profile in profile_list %}

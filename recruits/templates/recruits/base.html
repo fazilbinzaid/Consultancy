@@ -11,26 +11,42 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="../../favicon.ico"></link>
 
     <title>{% block head_title %} Recruitment Process{% endblock %}</title>
 
     {% include 'recruits/head_css.html' %}
+      <style>
+      {% block style %}
 
+      {% endblock %}
+      </style>
 
   </head>
 
   <body>
 
-  {% include 'recruits/navbar.html' %}
+    {% include 'recruits/navbar.html' %}
 
-    <div class="container">
+      <div class="container">
+        <ol class='breadcrumb'>
+          <li><a href='{% url "recruits:home" %}'>Home</a></li>
+          <li><a href='{% url "recruits:profile-list" %}'>Profiles</a></li></li>
 
-    {% block content %}
+          {% if request.user.is_authenticated %}
+          <li class='pull-right'>{{ request.user }}</li>
+          <li class='pull-right'><a  href='{% url "recruits:logout" %}'>Logout</a></li>
+          {% else %}
+          <li class='pull-right'><a  href='{% url "recruits:login" %}'>Login</a></li>
+          {% endif %}
 
-    {% endblock %}
+        </ol>
 
-    </div> <!-- /container -->
+        {% block content %}
+
+        {% endblock %}
+
+      </div> <!-- /container -->
 
     {% include 'recruits/javascript.html' %}
 

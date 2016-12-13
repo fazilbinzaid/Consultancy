@@ -1,0 +1,66 @@
+{% extends "recruits/base.html" %}
+{% load static %}
+<link type="text/css" rel="{% static 'css/detail.css' %}">
+
+{% block content %}
+<div class="container">
+      <div class="row">
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 toppad" >
+
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{ profile.name }}</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+
+                <div class=" col-md-9 col-lg-9 ">
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+
+                        <td>Email:</td>
+                        <td>{{ profile.email }}</td>
+                      </tr>
+                      <tr>
+                        <td>Years of experience in Django :</td>
+                        <td>{{ profile.django_exp }}</td>
+                      </tr>
+                      <tr>
+                        <td>Years of experience in Angular :</td>
+                        <td>{{ profile.angular_exp }}</td>
+                      </tr>
+
+                      <tr>
+                      <tr>
+                        {% if profile.resume %}
+                        <td>Resume</td>
+                        <td>{{ profile.resume.path }}</td>
+                        {% endif %}
+                      </tr>
+
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {% if profile.interview %}
+        <video class='col-sm-5 col-sm-offset-1' width="320" height="240" controls>
+          <source src="{{ profile.interview.url }}" type="video/mp4"> Your browser does not support the video tag.
+        {{ profile.interview }}
+        {% endif %}
+        </video>
+        
+      </div>
+      <!-- <div class="col-sm-4 col-sm-offset-8"  style='background-color:black;height:240px'> -->
+
+      <!-- </div> -->
+
+    </div>
+  {% endblock %}

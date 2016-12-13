@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import (Consultancy, Profile,
-                     Skillset,
+from .models import (CustomUser, Profile,
+                    #  Skillset,
                      )
 
-admin.site.register(Consultancy)
+admin.site.register(CustomUser)
 admin.site.register(Profile)
-admin.site.register(Skillset)
+# admin.site.register(Skillset)
