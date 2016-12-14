@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import (CustomUser, Profile,
                     #  Skillset,
                      )
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.views.generic import (View,
                                   ListView,
                                   DetailView,
@@ -26,23 +26,28 @@ class Home(View):
 
 
 def profile_list(request):
-    if request.user.is_authenticated():
+    if not request.user.is_authenticated():
+        return HttpResponse("You need to Login first.")
+    if request.user.is_authenticated() and request.user.is_superuser:
+        profiles = Profile.objects.all().order_by('user')
+    elif request.user.is_authenticated():
         profiles = Profile.objects.filter(user=request.user)
-        context = {
-            'profile_list': profiles
-        }
-        return render(request, 'recruits/profile_list.html', context)
-    return Http404
+    context = {
+        'profile_list': profiles
+    }
+    return render(request, 'recruits/profile_list.html', context)
+
 
 
 def profile_detail(request, id=None):
-    if request.user.is_authenticated():
+    if not request.user.is_authenticated():
+        return HttpResponse("You need to Login first.")
+    elif request.user.is_authenticated():
         profile = Profile.objects.get(id=id)
         context = {
             'profile': profile
         }
         return render(request, 'recruits/detail.html', context)
-    return Http404
 
 
 def profile_create(request):
@@ -58,7 +63,7 @@ def profile_create(request):
             "form": form,
         }
         return render(request, 'recruits/profile_form.html', context)
-    return Http404
+    return HttpResponse("You need to Login first.")
 
 
 def profile_update(request, id=None):
@@ -76,7 +81,17 @@ def profile_update(request, id=None):
             "form": form,
         }
         return render(request, 'recruits/profile_form.html', context)
-    return Http404
+    return HttpResponse("You need to Login first.")
+
+def profile_delete(request, id=None):
+    if request.user.is_authenticated():
+        profile = Profile.objects.get(id=id)
+        if profile.user == request.user:
+            profile.delete()
+            messages.success(request, "Successfully deleted.")
+            return redirect("recruits:profile-list")
+        return redirect("recruits:profile-detail")
+    return HttpResponse("You need to Login first.")
 
 def login_view(request):
     if not request.user.is_authenticated():

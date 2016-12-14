@@ -15,28 +15,29 @@
             <div class="panel-body">
               <div class="row">
 
-                <div class=" col-md-9 col-lg-9 ">
+                <div class=" col-lg-9 col-lg-9 ">
                   <table class="table table-user-information">
                     <tbody>
-                      <tr>
 
+                      <tr>
                         <td>Email:</td>
                         <td>{{ profile.email }}</td>
                       </tr>
+
                       <tr>
                         <td>Years of experience in Django :</td>
                         <td>{{ profile.django_exp }}</td>
                       </tr>
+
                       <tr>
                         <td>Years of experience in Angular :</td>
                         <td>{{ profile.angular_exp }}</td>
                       </tr>
 
                       <tr>
-                      <tr>
                         {% if profile.resume %}
-                        <td>Resume</td>
-                        <td>{{ profile.resume.path }}</td>
+                        <td>Resume :</td>
+                        <td><a href="{{ profile.resume.url }}">resume.pdf</a></td>
                         {% endif %}
                       </tr>
 
@@ -56,11 +57,19 @@
         {{ profile.interview }}
         {% endif %}
         </video>
-        
+
       </div>
       <!-- <div class="col-sm-4 col-sm-offset-8"  style='background-color:black;height:240px'> -->
 
       <!-- </div> -->
-
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <a class='btn btn-success col-sm-1' href='update' role='button'>Update</a>
+      <a class='btn btn-danger pull-right col-sm-1' href='delete' role='button'>Delete</a>
     </div>
   {% endblock %}

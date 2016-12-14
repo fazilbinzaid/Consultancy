@@ -1,0 +1,17 @@
+{% extends "recruits/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>Question Form</h1>
+
+<br>
+
+<form method='POST' action=''>{% csrf_token %}
+
+  {{ form|crispy }}
+  <input class='btn btn-primary' type='submit' value='Create Question' />
+
+</form>
+
+{% endblock %}

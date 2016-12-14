@@ -18,10 +18,17 @@
 <h1> {{ greeting }} </h1>
 <br>
 <br>
-{% if request.user.is_authenticated %}
+<br>
+<br>
+{% if request.user.is_authenticated and request.user.is_superuser %}
+<a class='btn btn-primary pull-right col-sm-3' href='{% url "questions:question-list" %}' role='button'>Go To Questions</a>
+<br>
+<br>
+<a class='btn btn-primary pull-right col-sm-3' href='{% url "recruits:profile-list" %}' role='button'>Go To Profile List</a>
+{% elif request.user.is_authenticated %}
 <a class='btn btn-primary pull-right col-sm-3' href='{% url "recruits:profile-list" %}' role='button'>Go To Profile List</a>
 {% else %}
-<a class='btn btn-primary pull-right col-sm-3' href='{% url "recruits:login" %}' role='button'>Go To Login Paget</a>
+<a class='btn btn-primary pull-right col-sm-3' href='{% url "recruits:login" %}' role='button'>Go To Login Page</a>
 {% endif %}
 
 {% endblock %}

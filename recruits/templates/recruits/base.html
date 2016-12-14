@@ -32,10 +32,18 @@
         <ol class='breadcrumb'>
           <li><a href='{% url "recruits:home" %}'>Home</a></li>
           <li><a href='{% url "recruits:profile-list" %}'>Profiles</a></li></li>
+          {% if request.user.is_authenticated and request.user.is_superuser %}
+          <li><a href='{% url "questions:question-list" %}'>Questions</a></li></li>
+          {% endif %}
 
-          {% if request.user.is_authenticated %}
+
+          {% if request.user.is_authenticated and not request.user.is_superuser %}
           <li class='pull-right'>{{ request.user }}</li>
           <li class='pull-right'><a  href='{% url "recruits:logout" %}'>Logout</a></li>
+          {% elif request.user.is_authenticated and request.user.is_superuser %}
+          <li class='pull-right'>{{ request.user }}</li>
+          <li class='pull-right'><a  href='{% url "recruits:logout" %}'>Logout</a></li>
+          <li class='pull-right'><a  href='/admin'>Admin Interface</a></li>
           {% else %}
           <li class='pull-right'><a  href='{% url "recruits:login" %}'>Login</a></li>
           {% endif %}
@@ -51,5 +59,7 @@
     {% include 'recruits/javascript.html' %}
 
 
+
   </body>
+
 </html>

@@ -6,7 +6,7 @@
   <h2>Profiles</h2>
   <ul>
     {% for profile in profile_list %}
-      <li><a href='{{ profile.id }}'>{{ profile.name }}</li>
+      <li><a href='{{ profile.id }}'>{{ profile.name }} : {{ profile.user.name }}</li>
     {% endfor %}
   </ul>
 {% endblock %}

@@ -3,6 +3,7 @@ from .views import (Home,
                     profile_detail,
                     profile_create,
                     profile_update,
+                    profile_delete,
                     login_view,
                     logout_view,
                     )
@@ -16,7 +17,8 @@ urlpatterns = [
         url(r'profiles/$', profile_list, name='profile-list'),
         url(r'profiles/(?P<id>[0-9]+)/$', profile_detail, name='profile-detail'),
         url(r'profiles/create/$', profile_create, name='profile-create'),
-        url(r'profiles/update/(?P<id>[0-9]+)/$', profile_update, name='profile-update'),
+        url(r'profiles/(?P<id>[0-9]+)/update/$', profile_update, name='profile-update'),
+        url(r'profiles/(?P<id>[0-9]+)/delete/$', profile_delete, name='profile-delete'),
         url(r'login/$', login_view, name='login'),
         url(r'logout/$', logout_view, name='logout'),
 

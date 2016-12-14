@@ -10,6 +10,7 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include('recruits.urls', namespace='recruits')),
+    url(r'', include('questions.urls', namespace='questions')),
     # url(r'^accounts/', include('registration.backends.default.urls')),
 
 ]

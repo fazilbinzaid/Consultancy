@@ -1,4 +1,6 @@
 from django import forms
+from django.conf import settings
+from django.core.mail import send_mail
 from django.contrib.auth import (authenticate,
                                  )
 from .models import (CustomUser, Profile,
@@ -21,11 +23,20 @@ class ProfileForm(forms.ModelForm):
                 #   'user',
                   )
 
-        def clean(self):
-            user = self.cleaned_data.get['consultancy']
-            user = request.user
-            cleaned_data = super(ProfileForm, self).clean({'consultancy': 'user'})
-            return cleaned_data
+    def clean(self):
+        name = self.cleaned_data.get('name')
+        subject = "Alert to new profile Update"
+        contact_message = "New profile with name %s have been created"%(name)
+        from_email = settings.EMAIL_HOST_USER
+        to_email = [from_email,]
+        send_mail(subject,
+                  contact_message,
+                  from_email,
+                  to_email,
+                  fail_silently=False)
+
+        cleaned_data = super(ProfileForm, self).clean()
+        return cleaned_data
 
 class UserLoginForm(forms.Form):
     email = forms.EmailField()

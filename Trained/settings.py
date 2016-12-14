@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # My Applications
     'recruits',
+    'questions',
     # Third Party Apps
     'crispy_forms',
     # 'registration',
@@ -122,8 +123,9 @@ AUTH_USER_MODEL = 'recruits.CustomUser'
 
 AUTHENTICATION_BACKENDS = { 'recruits.backends.CustomUserAuth', }
 
-# AUTHENTICATION_CLASSES = { ''}
 
-# ACCOUNT_ACTIVATION_DAYS = 1
-# REGISTRATION_AUTO_LOGIN = False
-# SITE_ID = 1
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'hroutlookdummy@gmail.com'
+EMAIL_HOST_PASSWORD = 'outlookdummy'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

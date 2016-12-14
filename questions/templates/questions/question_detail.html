@@ -1,0 +1,26 @@
+{% extends "recruits/base.html" %}
+{% load static %}
+
+<style>
+{% block style %}{% endblock %}
+</style>
+
+{% block content %}
+<div class='jumbotron'>
+  <h4>Question No.{{ question.id }}</h4>
+  <div class='col-sm-7 col-sm-offset-1'>
+    <br>
+    <br>
+    <ul>
+      <h3>Question : {{ question.question_text }}</h3>
+    </ul>
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<a class='btn btn-success col-sm-1' href='update' role='button'>Update</a>
+<a class='btn btn-danger pull-right col-sm-1' href='delete' role='button'>Delete</a>
+
+{% endblock %}
