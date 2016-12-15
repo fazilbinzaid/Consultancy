@@ -26,6 +26,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.name
 
+    def get_full_name(self):
+        return self.name
+
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
@@ -35,29 +38,36 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def get_absolute_url(self):
         return "profiles/"
 
-# class Skillset(models.Model):
-#     skill = models.CharField(max_length=10, primary_key=True)
-#
-#     def __str__(self):
-#         return self.skill
 
 
 class Profile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='profiles')
     name = models.CharField(max_length=40)
-    # skillset = models.ManyToManyField(Skillset, related_name='skills')
-    email = models.EmailField()
-    django_exp = models.IntegerField()
-    angular_exp = models.IntegerField()
-    resume = models.FileField(blank=True)
-    interview = models.FileField(blank=True)
+    # skillset = models.ManyToManyField(Skillset, related_name='profiles')
+    email = models.EmailField(unique=True)
+    location = models.CharField(max_length=20)
+    current_ctc = models.DecimalField(max_digits=3, decimal_places=2)
+    expected_ctc = models.DecimalField(max_digits=3, decimal_places=2)
+    notice_period = models.IntegerField()
+    resume = models.FileField(upload_to='docs/', blank=True)
+    recording = models.FileField(upload_to='media/', blank=True)
+    recording_optional = models.FileField(blank=True)
 
     def __str__(self):
         return self.name
 
-    # @property
-    # def name(self):
-    #     return ' '.join([str(self.first_name), str(self.last_name)])
 
     def get_absolute_url(self):
         return "/profiles/%i/" % self.id
+
+
+class Skillset(models.Model):
+    profile = models.ForeignKey(Profile, related_name='skills')
+    skill = models.CharField(max_length=10, primary_key=True)
+    exp = models.IntegerField()
+
+    class Meta:
+        unique_together = ('profile', 'skill')
+
+    def __str__(self):
+        return self.skill

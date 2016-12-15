@@ -20,7 +20,9 @@
 <br>
 <br>
 <br>
+{% if request.user.is_authenticated and request.user.is_superuser %}
 <a class='btn btn-success col-sm-1' href='update' role='button'>Update</a>
 <a class='btn btn-danger pull-right col-sm-1' href='delete' role='button'>Delete</a>
+{% endif %}
 
 {% endblock %}

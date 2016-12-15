@@ -1,17 +1,89 @@
 {% extends "recruits/base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
+
+
+{% block extrahead %}
+
+{% endblock %}
+
+
 
 {% block content %}
 
-<h1>Profile Form</h1>
 
-<br>
+<script type="text/javascript">
+    $(function() {
+        $('#skill tbody tr ').formset({
+            // For inline formsets, be sure to set the prefix, as the default prefix
+            // ('form') isn't correct.
+            // Django appears to generate the prefix from the lowercase plural
+            // name of the related model, with camel-case converted to underscores.
+            prefix: 'skilled'
+        })
+    })
+</script>
+<!-- /*<style type="text/css">
+    .delete-row {
+        margin-left:5px;
+    }
+</style>*/ -->
 
-<form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
 
-  {{ form|crispy }}
-  <input class='btn btn-primary' type='submit' value='Create Profile' />
 
-</form>
+<!-- <script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script>
+  $('#skill tbody tr').formset({
+      addText: 'add skill',
+      deleteText: 'remove'
+  });
+</script> -->
 
+</div>
+
+
+
+
+
+
+<fieldset>
+
+<div class='col-sm-6 col-sm-offset-3'>
+  <h1>Create Profile</h1>
+  <br>
+  <br>
+  <form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
+
+
+    {{ profile|crispy }}
+
+    <table id="skill" border="0" cellpadding="0" cellspacing="5">
+        <thead>
+            <tr>
+                <!-- <th scope="col">Skill</th> -->
+                <!-- <th scope="col">Experience</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in skill.forms %}
+            <tr id="{{ form.prefix }}-row">
+                <td>
+                  {{ form|crispy }}
+                </td>
+                <!-- <td>{{ form.exp }}</td> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+    <input class='btn btn-primary' type='submit' value='Create Profile' />
+
+  </form>
+
+
+</fieldset>
 {% endblock %}

@@ -8,13 +8,13 @@ from django.contrib import messages
 # Create your views here.
 
 def question_list(request):
-    if request.user.is_authenticated() and request.user.is_superuser:
+    if request.user.is_authenticated():
         questions = Question.objects.all()
         context = {
             'question_list': questions
         }
         return render(request, 'questions/question_list.html', context)
-    return HttpResponse("You are not authorised to proceed.")
+    return HttpResponse("You need to login first.")
 
 
 def question_create(request):
@@ -34,13 +34,13 @@ def question_create(request):
 
 
 def question_detail(request, id=None):
-    if request.user.is_authenticated() and request.user.is_superuser:
+    if request.user.is_authenticated():
         question = Question.objects.get(id=id)
         context = {
             'question': question
         }
         return render(request, 'questions/question_detail.html', context)
-    return HttpResponse("You are not authorised to proceed.")
+    return HttpResponse("You need to login first.")
 
 
 def question_update(request, id=None):

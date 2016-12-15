@@ -115,13 +115,16 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "static/video")
+MEDIA_ROOT = os.path.join(BASE_DIR, "static/uploads")
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 AUTH_USER_MODEL = 'recruits.CustomUser'
 
-AUTHENTICATION_BACKENDS = { 'recruits.backends.CustomUserAuth', }
+AUTHENTICATION_BACKENDS = {
+                            'recruits.backends.CustomUserAuth',
+                            'django.contrib.auth.backends.ModelBackend',
+                            }
 
 
 EMAIL_HOST = 'smtp.gmail.com'

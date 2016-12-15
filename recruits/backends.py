@@ -5,7 +5,10 @@ class CustomUserAuth(object):
     def authenticate(self, email=None, password=None):
         try:
             user = CustomUser.objects.get(email=email)
-            if user.check_password(password):
+            if user.is_superuser:
+                if user.check_password(password):
+                    return user
+            elif user.password==password:
                 return user
         except CustomUser.DoesNotExist:
             return None

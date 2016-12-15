@@ -1,0 +1,41 @@
+{% extends "recruits/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/js/collapse.js"></script>
+
+{% block content %}
+
+<form method="post" action="." encrypt="multipart/form-data">{% csrf_token %}
+    <b>App name: {{ App_title }}</b>
+    {% if formset.non_field_errors %}{{ formset.non_field_errors }}{% endif %}
+    {% for fieldset in formset.fieldsets %}
+        <fieldset class="{{ fieldset.classes }}">
+        {% if fieldset.legend %}
+            <h2>{{ fieldset.legend }}</h2>
+        {% endif %}
+        {% if fieldset.description %}
+        <p class="description">{{ fieldset.description }}</p>
+        {% endif %}
+        <ul>
+        {% for field in fieldset %}
+            {% if field.is_hidden %}
+                {{ field }}
+            {% else %}
+                <li{{ field.row_attrs }}>
+                {{ field.errors }}
+                {{ field.label_tag }}<br>
+                {{ field }}
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+        </fieldset>
+    {% endfor %}
+
+{% endblock %}

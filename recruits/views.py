@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
+from django.contrib import admin
 from django.contrib import messages
 from .models import (CustomUser, Profile,
-                    #  Skillset,
+                     Skillset,
                      )
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.views.generic import (View,
@@ -10,10 +11,12 @@ from django.views.generic import (View,
                                   )
 from .forms import (ProfileForm,
                     UserLoginForm,
+                    SkillForm,
+                    profile_formset,
                     )
-from django.contrib.auth import (authenticate,
-                                 login,
+from django.contrib.auth import (login,
                                  logout,
+                                 authenticate,
                                  )
 from django.core.urlresolvers import reverse
 
@@ -52,18 +55,29 @@ def profile_detail(request, id=None):
 
 def profile_create(request):
     if request.user.is_authenticated():
-        form = ProfileForm(request.POST or None, request.FILES or None)
-        if form.is_valid():
-            item = form.save(commit=False)
-            item.user = request.user
-            item.save()
+
+        skill = profile_formset(request.POST or None)
+        profile = ProfileForm(request.POST or None, request.FILES or None)
+        context = {
+                "profile": profile,
+                "skill": skill,
+            }
+        if profile.is_valid():
+            if skill.is_valid():
+                item = profile.save(commit=False)
+                item.user = request.user
+                item.save()
+                for form in skill:
+                    this = form.save(commit=False)
+                    this.profile = item
+                    this.save()
+
             messages.success(request, "Successfully Created.")
             return HttpResponseRedirect(item.get_absolute_url())
-        context = {
-            "form": form,
-        }
+
         return render(request, 'recruits/profile_form.html', context)
-    return HttpResponse("You need to Login first.")
+    return redirect("recruits:login")
+
 
 
 def profile_update(request, id=None):
