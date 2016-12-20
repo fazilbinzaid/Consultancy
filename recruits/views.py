@@ -111,10 +111,10 @@ def profile_update(request, id=None):
             form = ProfileForm(instance=profile)
             # formset = profile_formset(instance=profile)
         context = {
-            "profile": form,
-            # "skill" : formset,
+            "profile": profile,
+            "form" : form,
         }
-        return render(request, 'recruits/profile_form.html', context)
+        return render(request, 'recruits/test_form.html', context)
     return redirect("recruits:login")
 
 
@@ -158,18 +158,18 @@ def skillupdate_view(request, id=None):
         formset = Skillformset(request.POST)
         if formset.is_valid():
             for form in formset:
-                for skill in profile.skills.all():
+                for skill in skills:
                     # print(skill)
-                    item = formset.save(commit=False)
-                    if skill.skill==item.skill and skill.exp==item.exp:
+                    item = form.save(commit=False)
+                    if skill.skill == item.skill and skill.exp == item.exp:
                         break
                     elif skill.skill==item.skill:
                         skill.exp = item.exp
                     else:
-                        item.profile = profile_formset
+                        item.profile = profile
                         item.save()                   
 
-                    return HttpResponseRedirect(user.get_absolute_url()) 
+                    return HttpResponseRedirect(profile.get_absolute_url()) 
     else:
         formset = Skillformset()
     context = {

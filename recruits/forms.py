@@ -101,5 +101,5 @@ profile_formset = inlineformset_factory(Profile, Skillset,
 Skillformset = modelformset_factory(Skillset,
                                     fields=('skill', 'exp'),
                                     can_delete=True,
-                                    extra=3,
+                                    # extra=3,
                                     )

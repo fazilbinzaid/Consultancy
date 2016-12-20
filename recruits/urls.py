@@ -21,7 +21,7 @@ urlpatterns = [
         url(r'profiles/(?P<id>[0-9]{1,2})/delete/$', profile_delete, name='profile-delete'),
         url(r'login/$', login_view, name='login'),
         url(r'logout/$', logout_view, name='logout'),
-        url(r'skillupdate/(?P<id>[0-9]{1,2})/$', skillupdate_view, name='skill-update'),
+        url(r'skill-update/(?P<id>[0-9]{1,2})/$', skillupdate_view, name='skill-update'),
         url(r'home/$', Home.as_view(), name='home'),
 
 
