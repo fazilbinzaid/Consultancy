@@ -12,9 +12,10 @@
 {% block content %}
 
 
+
 <script type="text/javascript">
     $(function() {
-        $('#skill tbody tr ').formset({
+        $('#skill').formset({
             // For inline formsets, be sure to set the prefix, as the default prefix
             // ('form') isn't correct.
             // Django appears to generate the prefix from the lowercase plural
@@ -23,23 +24,26 @@
         })
     })
 </script>
-<!-- /*<style type="text/css">
-    .delete-row {
-        margin-left:5px;
-    }
-</style>*/ -->
 
 
 
-<!-- <script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/jquery.formset.js' %}"></script>
-<script>
-  $('#skill tbody tr').formset({
-      addText: 'add skill',
-      deleteText: 'remove'
-  });
-</script> -->
+                                                              <!-- /*<style type="text/css">
+                                                                  .delete-row {
+                                                                      margin-left:5px;
+                                                                  }
+                                                              </style>*/ -->
 
+
+
+                                                            <!-- <script src="{% static 'js/jquery.min.js' %}"></script>
+                                                            <script src="{% static 'js/jquery.formset.js' %}"></script>
+                                                            <script>
+                                                              $('#skill tbody tr').formset({
+                                                                  addText: 'add skill',
+                                                                  deleteText: 'remove'
+                                                              });
+                                                            </script>
+ -->
 </div>
 
 
@@ -49,8 +53,8 @@
 
 <fieldset>
 
-<div class='col-sm-6 col-sm-offset-3'>
-  <h1>Create Profile</h1>
+<div class='col-sm-4 col-sm-offset-4'>
+  <h1>Profile</h1>
   <br>
   <br>
   <form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
@@ -58,32 +62,34 @@
 
     {{ profile|crispy }}
 
-    <table id="skill" border="0" cellpadding="0" cellspacing="5">
-        <thead>
+    {{ skill.management_form }}
+    {% for form in skill.forms %}
+    {{ form.non_field_errors }}
+    <table id="skill">
+            <p>
             <tr>
-                <!-- <th scope="col">Skill</th> -->
-                <!-- <th scope="col">Experience</th> -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for form in skill.forms %}
-            <tr id="{{ form.prefix }}-row">
-                <td>
-                  {{ form|crispy }}
-                </td>
+              <td>
+                <label for="skill">Skill :</label>
+               {{ form.skill }}
+              </td>
+              <td>
+                <label for="expnce">Experience (years) :</label>
+               {{ form.exp }}
+              </td>
                 <!-- <td>{{ form.exp }}</td> -->
             </tr>
+            </p>
             {% endfor %}
-        </tbody>
     </table>
-
-
-
-
-    <input class='btn btn-primary' type='submit' value='Create Profile' />
+    <br>
+    <p>
+    <input class='btn btn-primary' type='submit' value='Submit' />
+    </p>
 
   </form>
+</div>
 
 
 </fieldset>
+
 {% endblock %}

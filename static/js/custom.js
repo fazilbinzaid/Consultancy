@@ -26,3 +26,25 @@ $('.add-inline').each(function () {
         });
     }
 });
+
+
+
+$(document).ready(function() {
+    console.log('hellooo');
+    $('#add-skill-button').click(function(ev) {
+        console.log('world')
+        ev.preventDefault();
+        var count = $('#skills-form-container').children().length;
+        var tmplMarkup = $('#skill-template').html();
+        var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+        $('div#skills-form-container').append(compiledTmpl);
+
+        // update form count
+        $('#id_skills-TOTAL_FORMS').attr('value', count+1);
+
+        // some animate to scroll to view our new form
+        $('html, body').animate({
+                scrollTop: $("#add-skill-button").position().top-200
+            }, 800);
+    });
+});

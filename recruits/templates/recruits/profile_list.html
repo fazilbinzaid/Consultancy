@@ -2,11 +2,15 @@
 
 
 {% block content %}
-<a class='pull-right' href='{% url 'recruits:profile-create' %}'>Create Profile</a>
-  <h2>Profiles</h2>
-  <ul>
-    {% for profile in profile_list %}
-      <li><a href='{{ profile.id }}'>{{ profile.name }} : {{ profile.user.name }}</li>
-    {% endfor %}
-  </ul>
+<br>
+<a class='pull-right col-sm-2 col-sm-offset-1' href='{% url 'recruits:profile-create' %}'>Create Profile</a>
+<!-- <div class="jumbotron"> -->
+	  <h2 class="col-sm-6 col-sm-offset-1">Profiles</h2>
+	  <div class='col-sm-6 col-sm-offset-1'>
+	  <ol>
+	    {% for profile in profiles %}
+	      <li><a href='{{ profile.id }}/'><h4>{{ profile.name }}</h4></a></li>
+	    {% endfor %}
+	  </ol>
+</div>
 {% endblock %}

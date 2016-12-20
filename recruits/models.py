@@ -44,10 +44,10 @@ class Profile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='profiles')
     name = models.CharField(max_length=40)
     # skillset = models.ManyToManyField(Skillset, related_name='profiles')
-    email = models.EmailField(unique=True)
-    location = models.CharField(max_length=20)
-    current_ctc = models.DecimalField(max_digits=3, decimal_places=2)
-    expected_ctc = models.DecimalField(max_digits=3, decimal_places=2)
+    email = models.EmailField()
+    location = models.CharField(max_length=20,)
+    current_ctc = models.DecimalField(max_digits=3, decimal_places=2,)
+    expected_ctc = models.DecimalField(max_digits=3, decimal_places=2,)
     notice_period = models.IntegerField()
     resume = models.FileField(upload_to='docs/', blank=True)
     recording = models.FileField(upload_to='media/', blank=True)
@@ -63,11 +63,11 @@ class Profile(models.Model):
 
 class Skillset(models.Model):
     profile = models.ForeignKey(Profile, related_name='skills')
-    skill = models.CharField(max_length=10, primary_key=True)
+    skill = models.CharField(max_length=10)
     exp = models.IntegerField()
 
     class Meta:
-        unique_together = ('profile', 'skill')
+        unique_together = ('profile', 'skill', 'exp')
 
     def __str__(self):
-        return self.skill
+        return ' : '.join([str(self.profile), (self.skill)])

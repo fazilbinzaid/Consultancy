@@ -1,0 +1,43 @@
+{% extends "recruits/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class='col-sm-4 col-sm-offset-4'>
+	<form method='POST' enctype='multipart/form-data'>
+			{% csrf_token %}
+			{{ profile|crispy }}
+			
+
+		<script type="text/html" id="skill-template">
+		<div id="item-__prefix__">
+		    {{ skill|crispy }}
+		</div>
+		</script>
+
+
+
+		{{ skill.management_form }}
+		<div id="skills-form-container">
+		    {% for item_form in skill %}
+		        <div id="item-{{ forloop.counter0 }}">
+			        <table>
+				        <tr>
+					        <td>
+					        <label for="skill">Skill :</label>
+					        {{ item_form.skill }}</td>
+					        <td>
+					        <label for="exp">Experience :</label>
+					        {{ item_form.exp }}</td>
+				        </tr>
+			        </table>
+		        </div>
+		    {% endfor %}
+		</div>
+		<a href="" id="add-skill-button" class="pull-right add-skill">Add Skill</a>
+		<br>
+		<input class='btn btn-primary' type='submit' value='Create Profile'>
+	</form>
+</div>
+{% endblock %}

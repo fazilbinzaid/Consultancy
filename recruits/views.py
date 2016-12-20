@@ -11,8 +11,9 @@ from django.views.generic import (View,
                                   )
 from .forms import (ProfileForm,
                     UserLoginForm,
-                    SkillForm,
+                    SkillsetForm,
                     profile_formset,
+                    Skillformset,
                     )
 from django.contrib.auth import (login,
                                  logout,
@@ -29,14 +30,16 @@ class Home(View):
 
 
 def profile_list(request):
+    users = CustomUser.objects.all()
     if not request.user.is_authenticated():
-        return HttpResponse("You need to Login first.")
+        return redirect("recruits:login")
     if request.user.is_authenticated() and request.user.is_superuser:
         profiles = Profile.objects.all().order_by('user')
     elif request.user.is_authenticated():
         profiles = Profile.objects.filter(user=request.user)
     context = {
-        'profile_list': profiles
+        'profiles': profiles,
+        'users': users,
     }
     return render(request, 'recruits/profile_list.html', context)
 
@@ -62,18 +65,22 @@ def profile_create(request):
                 "profile": profile,
                 "skill": skill,
             }
+
         if profile.is_valid():
             if skill.is_valid():
                 item = profile.save(commit=False)
                 item.user = request.user
                 item.save()
+                
                 for form in skill:
                     this = form.save(commit=False)
-                    this.profile = item
+                    if this.skill == '':
+                        break        
+                    this.profile = item                   
                     this.save()
 
-            messages.success(request, "Successfully Created.")
-            return HttpResponseRedirect(item.get_absolute_url())
+                messages.success(request, "Successfully Created.")
+                return HttpResponseRedirect(item.get_absolute_url())
 
         return render(request, 'recruits/profile_form.html', context)
     return redirect("recruits:login")
@@ -83,19 +90,33 @@ def profile_create(request):
 def profile_update(request, id=None):
     if request.user.is_authenticated():
         profile = Profile.objects.get(id=id)
+        skill = profile.skills.all()
+
         if request.method == 'POST':
             form = ProfileForm(request.POST or None, request.FILES or None)
+            # formset = profile_formset(request.POST or None)
             if form.is_valid():
                 item = form.save(commit=False)
-                item.save()
-                return HttpResponseRedirect(item.get_absolute_url())
+                profile.name = item.name
+                profile.email = item.email
+                profile.current_ctc = item.current_ctc
+                profile.expected_ctc = item.expected_ctc
+                profile.notice_period = item.notice_period
+                profile.resume = item.resume
+                profile.recording = item.recording
+                profile.save()
+           
+            return HttpResponseRedirect(profile.get_absolute_url())
         else:
             form = ProfileForm(instance=profile)
+            # formset = profile_formset(instance=profile)
         context = {
-            "form": form,
+            "profile": form,
+            # "skill" : formset,
         }
         return render(request, 'recruits/profile_form.html', context)
-    return HttpResponse("You need to Login first.")
+    return redirect("recruits:login")
+
 
 def profile_delete(request, id=None):
     if request.user.is_authenticated():
@@ -106,6 +127,7 @@ def profile_delete(request, id=None):
             return redirect("recruits:profile-list")
         return redirect("recruits:profile-detail")
     return HttpResponse("You need to Login first.")
+
 
 def login_view(request):
     if not request.user.is_authenticated():
@@ -123,7 +145,35 @@ def login_view(request):
         user = request.user
         return HttpResponseRedirect(user.get_absolute_url())
 
+
 def logout_view(request):
     logout(request)
     return render(request, "registration/logout.html", {})
     # return HttpResponseRedirect("recruits:home")
+
+def skillupdate_view(request, id=None):
+    profile = Profile.objects.get(id=id)
+    skills = profile.skills.all()
+    if request.method=="POST":
+        formset = Skillformset(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                for skill in profile.skills.all():
+                    # print(skill)
+                    item = formset.save(commit=False)
+                    if skill.skill==item.skill and skill.exp==item.exp:
+                        break
+                    elif skill.skill==item.skill:
+                        skill.exp = item.exp
+                    else:
+                        item.profile = profile_formset
+                        item.save()                   
+
+                    return HttpResponseRedirect(user.get_absolute_url()) 
+    else:
+        formset = Skillformset()
+    context = {
+        "skills": skills,
+        "form": formset
+    }
+    return render(request, "recruits/skill_form.html", context)
