@@ -20,6 +20,7 @@ from django.contrib.auth import (login,
                                  authenticate,
                                  )
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
 # Create your views here.
 
@@ -59,20 +60,20 @@ def profile_detail(request, id=None):
 def profile_create(request):
     if request.user.is_authenticated():
 
-        skill = profile_formset(request.POST or None)
+        formset = profile_formset(request.POST or None)
         profile = ProfileForm(request.POST or None, request.FILES or None)
         context = {
                 "profile": profile,
-                "skill": skill,
+                "skill": formset,
             }
 
         if profile.is_valid():
-            if skill.is_valid():
+            if formset.is_valid():
                 item = profile.save(commit=False)
                 item.user = request.user
                 item.save()
                 
-                for form in skill:
+                for form in formset:
                     this = form.save(commit=False)
                     if this.skill == '':
                         break        
@@ -124,8 +125,8 @@ def profile_delete(request, id=None):
         if profile.user == request.user:
             profile.delete()
             messages.success(request, "Successfully deleted.")
-            return redirect("recruits:profile-list")
-        return redirect("recruits:profile-detail")
+            return render(request, "recruits/profile_delete.html", {})
+        return redirect("recruits:profile-list")
     return HttpResponse("You need to Login first.")
 
 
@@ -152,28 +153,68 @@ def logout_view(request):
     # return HttpResponseRedirect("recruits:home")
 
 def skillupdate_view(request, id=None):
-    profile = Profile.objects.get(id=id)
-    skills = profile.skills.all()
-    if request.method=="POST":
-        formset = Skillformset(request.POST)
-        if formset.is_valid():
-            for form in formset:
+    if request.user.is_authenticated():
+        profile = Profile.objects.get(id=id)
+        skills = profile.skills.all()
+        if request.method=="POST":
+            formset = profile_formset(request.POST, instance=profile)
+            if formset.is_valid():
                 for skill in skills:
-                    # print(skill)
-                    item = form.save(commit=False)
-                    if skill.skill == item.skill and skill.exp == item.exp:
-                        break
-                    elif skill.skill==item.skill:
-                        skill.exp = item.exp
-                    else:
-                        item.profile = profile
-                        item.save()                   
+                    for form in formset:
+                        # print(skill)
+                        item = form.save(commit=False) 
+                        print(form)
+                        if skill.skill==item.skill and skill.exp==item.exp:
+                            pass
+                        elif skill.skill==item.skill:
+                            print(item)
+                            skill.exp = item.exp
+                            pass
+                        elif item.skill=='' or item.exp=='':
+                            pass
+                        else:
+                            item.profile = profile
+                            item.save()
+                                      
 
                     return HttpResponseRedirect(profile.get_absolute_url()) 
-    else:
-        formset = Skillformset()
+        else:
+            formset = profile_formset(queryset=skills)
+        context = {
+            "skills": skills,
+            "formset": formset
+        }
+        return render(request, "recruits/skill_form.html", context)
+    return redirect("recruits:login")
+
+
+def consultancy_view(request):
+    users = CustomUser.objects.all()
     context = {
-        "skills": skills,
-        "form": formset
+        'profiles': users,
     }
-    return render(request, "recruits/skill_form.html", context)
+    return render(request, 'recruits/profile_list.html', context)
+
+
+def search_view(request):
+    if request.user.is_authenticated():        
+        if request.method == 'GET':
+            key = request.GET.get('search_box', None) or request.GET.get('q', None)
+            # print(key)
+            if 'python' in key:
+                queryset = Profile.objects.python().distinct()
+            elif 'javascript' in key:
+                queryset = Profile.objects.javascript().distinct()
+            else:
+                queryset = Profile.objects.filter(Q(skills__skill__icontains=str(key))).distinct()
+                # print(queryset)
+            if not request.user.is_superuser:
+                queryset = queryset.filter(user=request.user)
+
+        context = {
+        'profiles': queryset,
+        'key': key,
+            }
+        return render(request, 'recruits/profile_list.html', context)
+    return redirect("recruits:login")
+

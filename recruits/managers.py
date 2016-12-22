@@ -1,4 +1,7 @@
 from django.contrib.auth.models import BaseUserManager
+from django.db import models
+from django.db.models import Q
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -29,3 +32,31 @@ class UserManager(BaseUserManager):
                 raise ValueError('Superuser must have is_superuser=True.')
 
         return self._create_user(email, password, **extra_fields)
+
+
+class ProfileQuerySet(models.QuerySet):
+
+    def python(self):
+        return self.filter(Q(skills__skill__icontains='python') |
+                           Q(skills__skill__icontains='django') |
+                           Q(skills__skill__icontains='flask')  |
+                           Q(skills__skill__icontains='edge')   
+                           )
+
+    def javascript(self):
+        return self.filter(Q(skills__skill__icontains='javascript') |
+                           Q(skills__skill__icontains='angularjs')  |
+                           Q(skills__skill__icontains='ionic')      
+                           )
+
+
+class ProfileManager(models.Manager):
+
+    def get_queryset(self):
+        return ProfileQuerySet(self.model, using=self._db)
+
+    def python(self):
+        return self.get_queryset().python()
+
+    def javascript(self):
+        return self.get_queryset().javascript()

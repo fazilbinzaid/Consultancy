@@ -2,14 +2,20 @@
 
 
 {% block content %}
+{% if not request.user.is_superuser %}
 <br>
-<a class='pull-right col-sm-2 col-sm-offset-1' href='{% url 'recruits:profile-create' %}'>Create Profile</a>
+<a class='pull-right col-sm-2 col-sm-offset-1' href="{% url 'recruits:profile-create' %}">Create Profile</a>
+{% endif %}
 <!-- <div class="jumbotron"> -->
 	  <h2 class="col-sm-6 col-sm-offset-1">Profiles</h2>
 	  <div class='col-sm-6 col-sm-offset-1'>
 	  <ol>
 	    {% for profile in profiles %}
-	      <li><a href='{{ profile.id }}/'><h4>{{ profile.name }}</h4></a></li>
+	    {% if request.user.is_superuser %}
+		<li><a href='/profiles/{{ profile.id }}/'><h4>{{ profile.name }}   (   {{ profile.user.name }}    )</h4></a></li>
+	    {% elif not request.user.is_superuser %}
+	    <li><a href='/profiles/{{ profile.id }}/'><h4>{{ profile.name }}</h4></a></li>
+	    {% endif %}
 	    {% endfor %}
 	  </ol>
 </div>

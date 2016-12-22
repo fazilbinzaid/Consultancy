@@ -6,23 +6,34 @@
 </style>
 
 {% block content %}
-<div class='jumbotron'>
+<div class='col-sm-10 col-sm-offset-1'>
   <h4>Question No.{{ question.id }}</h4>
   <div class='col-sm-7 col-sm-offset-1'>
     <br>
     <br>
     <ul>
-      <h3>Question : {{ question.question_text }}</h3>
+		<h3>Question :</h3>
+		<h3>{{ question.question_text }}</h3>
+
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		
     </ul>
   </div>
 </div>
-<br>
-<br>
-<br>
-<br>
-{% if request.user.is_authenticated and request.user.is_superuser %}
-<a class='btn btn-success col-sm-1' href='update' role='button'>Update</a>
-<a class='btn btn-danger pull-right col-sm-1' href='delete' role='button'>Delete</a>
-{% endif %}
+<div class='col-sm-10 col-sm-offset-1'>
+	{% if request.user.is_authenticated and request.user.is_superuser %}
+	<a class='btn btn-success col-sm-1' href='update' role='button'>Update</a>
+	<a class='btn btn-danger pull-right col-sm-1' href='delete' role='button'>Delete</a>
+	{% endif %}
+</div>
+
 
 {% endblock %}

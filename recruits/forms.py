@@ -90,16 +90,33 @@ class CustomInlineFormset(BaseInlineFormSet, forms.ModelForm):
     #         data = form.cleaned_data
     #         super(CustomInlineFormset, self).clean()
 
+class CustomSkillFormset(forms.BaseModelFormSet):
+
+    def __init__(self, *args, **kwargs):
+        super(CustomSkillFormset, self).__init__(*args, **kwargs)
+        if self.forms:
+            for form in self.forms:
+                for field in form.fields:
+                    form.fields[field].widget.attrs.update({'class': 'form-control'})
+
+    def clean(self):
+        for form in self.forms:
+            data = form.cleaned_data
+            print(data)
+        super(CustomSkillFormset, self).clean()
+
+
 
 profile_formset = inlineformset_factory(Profile, Skillset,
                                     fields=('skill','exp',),
-                                    # extra=1,
+                                    # extra=2,
                                     # max_num=3,
                                     formset=CustomInlineFormset,
                                     can_delete=True,
                                     )
 Skillformset = modelformset_factory(Skillset,
                                     fields=('skill', 'exp'),
-                                    can_delete=True,
-                                    # extra=3,
+                                    # can_delete=True,
+                                    # extra=2,
+                                    formset=CustomSkillFormset,
                                     )

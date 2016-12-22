@@ -2,16 +2,18 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<div class='col-sm-6 col-sm-offset-3'>
+	<h1>Question Form</h1>
+	<br>
+	<h4>Add new questions..</h4>
+	<br>
 
-<h1>Question Form</h1>
+	<form method='POST' action=''>{% csrf_token %}
 
-<br>
+	  {{ form|crispy }}
+	  <input class='btn btn-primary' type='submit' value='Create Question' />
 
-<form method='POST' action=''>{% csrf_token %}
-
-  {{ form|crispy }}
-  <input class='btn btn-primary' type='submit' value='Create Question' />
-
-</form>
+	</form>
+</div>
 
 {% endblock %}

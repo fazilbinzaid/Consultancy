@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
-from .managers import UserManager
+from .managers import UserManager, ProfileManager
 
 # Create your models here.
 
@@ -52,6 +52,9 @@ class Profile(models.Model):
     resume = models.FileField(upload_to='docs/', blank=True)
     recording = models.FileField(upload_to='media/', blank=True)
     recording_optional = models.FileField(blank=True)
+
+    objects = ProfileManager()
+
 
     def __str__(self):
         return self.name

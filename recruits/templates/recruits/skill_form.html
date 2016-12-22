@@ -18,10 +18,23 @@
 <div class='col-sm-4 col-sm-offset-4'>
   <h1>Skills</h1>
   <br>
+  <h4>Enter new skills here..</h4>
   <br>
   <form method='POST' action=''>{% csrf_token %}
 
-    {{ form|crispy }}
+    {{ formset.management_form }}
+   <table border="0" cellpadding="1" cellspacing="2" width="100%">
+    <tbody>
+        {% for form in formset %}
+        <tr>
+           <td>
+              {{ form|crispy }}
+           </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
    
     <input class='btn btn-primary' type='submit' value='Submit' />
 

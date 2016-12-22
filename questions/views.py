@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from questions.models import Question
 from questions.forms import QuestionForm
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -63,9 +63,7 @@ def question_update(request, id=None):
 def question_delete(request, id=None):
     if request.user.is_authenticated() and request.user.is_superuser:
         question = Question.objects.get(id=id)
-        if question.user == request.user:
-            question.delete()
-            messages.success(request, "Successfully deleted.")
-            return redirect("questions:question-list")
-        return redirect("questions:question-detail")
+        question.delete()
+        messages.success(request, "Successfully deleted.")
+        return redirect("questions:question-list")
     return HttpResponse("You are not authorised to proceed.")
