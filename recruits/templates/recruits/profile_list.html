@@ -1,13 +1,89 @@
 {% extends "recruits/base.html" %}
 
+<!-- UNUSED TABLE DATA IS RESIDING AT THE VERY BOTTOM..!! -->
+
 
 {% block content %}
 {% if not request.user.is_superuser %}
 <br>
 <a class='pull-right col-sm-2 col-sm-offset-1' href="{% url 'recruits:profile-create' %}">Create Profile</a>
 {% endif %}
-<!-- <div class="jumbotron"> -->
-	  <h2 class="col-sm-6 col-sm-offset-1">Profiles</h2>
+
+
+<div class="box-table">
+<table data-fn="contacts">
+	<thead>
+	<tr>
+		<th>Name</th>
+		{% if request.user.is_superuser %}
+		<th>Consultancy</th>
+		{% endif %}
+		<th>Location</th>
+		<th>Designation</th>
+		<th>Skills</th>
+		<th>Current CTC</th>
+		<th>Notice Period</th>
+	</tr>
+	</thead>
+{% for profile in profiles %}
+	<tr>
+		<td><a href='/profiles/{{ profile.id }}'>{{ profile.name }}</td>
+		{% if request.user.is_superuser %}
+		<td>{{ profile.user.name }}</td>
+		{% endif %}
+		<td>{{ profile.location }}</td>
+		<td>{{ profile.designation }}</td>
+		<td>{% for item in profile.skills.all %}{{ item.skill }}, {% endfor %}</td>
+		<td class='text-align-center'>{{ profile.current_ctc }}</td>
+		<td class='text-align-center'>{{ profile.notice_period }} Days</td>
+	</tr>
+{% endfor %}
+</table>    
+</div>
+	 
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+ <h2 class="col-sm-6 col-sm-offset-1">Profiles</h2>
 	  <div class='col-sm-6 col-sm-offset-1'>
 	  <ol>
 	    {% for profile in profiles %}
@@ -17,6 +93,4 @@
 	    <li><a href='/profiles/{{ profile.id }}/'><h4>{{ profile.name }}</h4></a></li>
 	    {% endif %}
 	    {% endfor %}
-	  </ol>
-</div>
-{% endblock %}
+	  </ol> -->

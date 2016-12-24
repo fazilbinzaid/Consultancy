@@ -41,10 +41,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(models.Model):
+    time = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='profiles')
     name = models.CharField(max_length=40)
-    # skillset = models.ManyToManyField(Skillset, related_name='profiles')
     email = models.EmailField()
+    # designation = models.CharField(max_length=20)
     location = models.CharField(max_length=20,)
     current_ctc = models.DecimalField(max_digits=3, decimal_places=2,)
     expected_ctc = models.DecimalField(max_digits=3, decimal_places=2,)
@@ -70,7 +71,7 @@ class Skillset(models.Model):
     exp = models.IntegerField()
 
     class Meta:
-        unique_together = ('profile', 'skill', 'exp')
+        unique_together = ('profile', 'skill',)
 
     def __str__(self):
         return ' : '.join([str(self.profile), (self.skill)])

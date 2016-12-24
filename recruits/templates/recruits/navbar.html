@@ -3,7 +3,7 @@
 <!-- Static navbar -->
 <nav class="navbar navbar-default navbar-static-top">
   <div class="container">
-    <div class="navbar-header">
+    <!-- <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -11,16 +11,16 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="#">Raw Data Tech</a>
-    </div>
+    </div> -->
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="{% url 'recruits:home' %}">Home</a></li>
-         <li><a href='{% url "recruits:profile-list" %}'>Profiles</a></li></li>
-          {% if request.user.is_authenticated %}
-          <li><a href='{% url "questions:question-list" %}'>Questions</a></li></li>
-          {% endif %}
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Catagories <span class="caret"></span></a>
+        <li><a href='{% url "recruits:profile-list" %}'>Profiles</a></li></li>
+        {% if request.user.is_authenticated %}
+        <li><a href='{% url "questions:question-list" %}'>Questions</a></li></li>
+        {% endif %}
+        <!-- <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Catagories <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="/search/?q=python/" name='python'>Python</a></li>
             <li><a href="/search/?q=javascript/">JavaScript</a></li>
@@ -30,30 +30,28 @@
             <li><a href="#">Separated link</a></li>
             <li><a href="#">One more separated link</a></li>
           </ul>
-        </li>
+        </li> -->
       </ul>    
 
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated and not request.user.is_superuser %}
-          <li class='pull-right acc-align'>{{ request.user }}<span class="sr-only">(current)</span></li>
-          <li class='pull-right'><a  href='{% url "recruits:logout" %}'>Logout</a></li>
-          {% elif request.user.is_authenticated and request.user.is_superuser %}
-          <li class='pull-right acc-align'>{{ request.user }}<span class="sr-only">(current)</span></li>
-          <li class='pull-right'><a  href='{% url "recruits:logout" %}'>Logout</a></li>
-          <li class='pull-right'><a  href='/admin'>Admin Interface</a></li>
-          {% else %}
-          <li class='pull-right'><a  href='{% url "recruits:login" %}'>Login</a></li>
-          {% endif %}
-          <li>
+        <li class='pull-right'><a  href='{% url "recruits:logout" %}'>Logout ({{ request.user.name }})</a></li>
+        {% elif request.user.is_authenticated and request.user.is_superuser %}
+        <li class='pull-right'><a  href='{% url "recruits:logout" %}'>Logout ({{ request.user.name }})</a></li>
+        <li class='pull-right'><a  href='/admin'>Admin Interface</a></li>
+        {% else %}
+        <li class='pull-right'><a  href='{% url "recruits:login" %}'>Login</a></li>
+        {% endif %}
+        <li>
           <form type='get' action="/search/">
-          <input class='btn-xs tab-search col-sm-8' id="search_box" type="text" name="search_box"  placeholder="Search" >
+          <input class='btn-xs tab-search col-sm-2' id="find_which" type="text" name="where" placeholder="Location" >
+          <input class='btn-xs tab-search col-sm-1' id="from_how" type="text" name="from"  placeholder="Experience" >
+          <input class='btn-xs tab-search col-sm-1' id="to_how" type="text" name="to"  placeholder="Experience" >
+          <input class='btn-xs tab-search col-sm-2' id="find_which" type="text" name="which"  placeholder="Skill" >
+          <!-- <input class='btn-xs tab-search col-sm-1' id="find_which" type="text" name="which"  placeholder="Search" > -->
           <button class='button-search' id="search_submit" type="submit" >Go</button>
           </form>
-          </li>
-
-        <!-- <li><a href="../navbar/">Default</a></li>
-        <li class="active"><a href="./">Static top <span class="sr-only">(current)</span></a></li>
-        <li><a href="../navbar-fixed-top/">Fixed top</a></li> -->
+        </li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>

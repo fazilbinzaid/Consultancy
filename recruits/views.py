@@ -35,9 +35,9 @@ def profile_list(request):
     if not request.user.is_authenticated():
         return redirect("recruits:login")
     if request.user.is_authenticated() and request.user.is_superuser:
-        profiles = Profile.objects.all().order_by('user')
+        profiles = Profile.objects.all().order_by('-time')
     elif request.user.is_authenticated():
-        profiles = Profile.objects.filter(user=request.user)
+        profiles = Profile.objects.filter(user=request.user).order_by('-time')
     context = {
         'profiles': profiles,
         'users': users,
@@ -199,21 +199,34 @@ def consultancy_view(request):
 def search_view(request):
     if request.user.is_authenticated():        
         if request.method == 'GET':
-            key = request.GET.get('search_box', None) or request.GET.get('q', None)
-            # print(key)
-            if 'python' in key:
-                queryset = Profile.objects.python().distinct()
-            elif 'javascript' in key:
-                queryset = Profile.objects.javascript().distinct()
-            else:
-                queryset = Profile.objects.filter(Q(skills__skill__icontains=str(key))).distinct()
-                # print(queryset)
+            queryset = Profile.objects.all()
+            if request.GET.get('where'):
+                where = request.GET.get('where')
+                queryset = queryset.filter(location=where)
+            if request.GET.get('from'):
+                how = request.GET.get('from')
+                queryset = queryset.filter(skills__exp=int(how))
+            if request.GET.get('to'):
+                how = request.GET.get('to')
+                queryset = queryset.filter(skills__exp=int(how))
+            if request.GET.get('which'):
+                which = request.GET.get('which')
+                queryset = queryset.filter(skills__skill__icontains=which)
+            # key = request.GET.get('which', None) or request.GET.get('q', None)
+            # # print(key)
+            # if 'python' in key:
+            #     queryset = queryset.python().distinct()
+            # elif 'javascript' in key:
+            #     queryset = queryset.javascript().distinct()
+            # else:
+            #     queryset = queryset.filter(Q(skills__skill__icontains=str(key))).distinct()
+            #     # print(queryset)
             if not request.user.is_superuser:
                 queryset = queryset.filter(user=request.user)
 
         context = {
         'profiles': queryset,
-        'key': key,
+        # 'key': key,
             }
         return render(request, 'recruits/profile_list.html', context)
     return redirect("recruits:login")
