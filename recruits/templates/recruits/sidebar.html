@@ -1,0 +1,31 @@
+{% load static %}
+
+
+<div class="col-sm-1">
+{% block sidebar %}
+<ul class="sidebar-nav">
+  <label>Search Profiles here...</label>
+  <form type='get' action="/search/">
+    <br>
+    <li><label for="find_which">Location :</label>
+    <input class='btn-sm col-xs-12' id="find_which" type="text" name="where" placeholder="Location" ></li>
+    <br>
+    <br>
+    <br>
+    <label>With Experience</label>
+    <li><label for="find_which">From :</label>
+    <input class='btn-sm col-xs-9' id="from_how" type="text" name="from"  placeholder="Years" ></li>
+    <br>
+    <br>
+    <li><label for="find_which">To :</label>
+    <input class='btn-sm col-xs-9' id="to_how" type="text" name="to"  placeholder="Years" ></li>
+    <br>
+    <br>
+    <br>
+    <li><label for="find_which">Skill :</label>
+    <input class='btn-sm col-xs-12' id="find_which" type="text" name="which"  placeholder="Skill" ></li>
+    <button class='button-search' id="search_submit" type="submit" >Go</button>
+  </form>
+</ul>
+{% endblock %}
+</div>

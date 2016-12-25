@@ -31,7 +31,7 @@
             <li><a href="#">One more separated link</a></li>
           </ul>
         </li> -->
-      </ul>    
+      </ul>
 
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated and not request.user.is_superuser %}
@@ -42,15 +42,7 @@
         {% else %}
         <li class='pull-right'><a  href='{% url "recruits:login" %}'>Login</a></li>
         {% endif %}
-        <li>
-          <form type='get' action="/search/">
-          <input class='btn-xs tab-search col-sm-2' id="find_which" type="text" name="where" placeholder="Location" >
-          <input class='btn-xs tab-search col-sm-1' id="from_how" type="text" name="from"  placeholder="Experience" >
-          <input class='btn-xs tab-search col-sm-1' id="to_how" type="text" name="to"  placeholder="Experience" >
-          <input class='btn-xs tab-search col-sm-2' id="find_which" type="text" name="which"  placeholder="Skill" >
-          <!-- <input class='btn-xs tab-search col-sm-1' id="find_which" type="text" name="which"  placeholder="Search" > -->
-          <button class='button-search' id="search_submit" type="submit" >Go</button>
-          </form>
+        
         </li>
       </ul>
     </div><!--/.nav-collapse -->

@@ -65,6 +65,11 @@ padding-right: 40px;
 .tab-search{
   margin-top: 13px;
 }
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
 
 
 /*Downloaded CSS for table used at the list page.*/

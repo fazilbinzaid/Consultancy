@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
-from .managers import UserManager, ProfileManager
+from .managers import UserManager, ProfileQuerySet
 
 # Create your models here.
 
@@ -54,7 +54,7 @@ class Profile(models.Model):
     recording = models.FileField(upload_to='media/', blank=True)
     recording_optional = models.FileField(blank=True)
 
-    objects = ProfileManager()
+    objects = ProfileQuerySet.as_manager()
 
 
     def __str__(self):

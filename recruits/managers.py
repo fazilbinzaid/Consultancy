@@ -40,23 +40,11 @@ class ProfileQuerySet(models.QuerySet):
         return self.filter(Q(skills__skill__icontains='python') |
                            Q(skills__skill__icontains='django') |
                            Q(skills__skill__icontains='flask')  |
-                           Q(skills__skill__icontains='edge')   
+                           Q(skills__skill__icontains='edge')
                            )
 
     def javascript(self):
         return self.filter(Q(skills__skill__icontains='javascript') |
                            Q(skills__skill__icontains='angularjs')  |
-                           Q(skills__skill__icontains='ionic')      
+                           Q(skills__skill__icontains='ionic')
                            )
-
-
-class ProfileManager(models.Manager):
-
-    def get_queryset(self):
-        return ProfileQuerySet(self.model, using=self._db)
-
-    def python(self):
-        return self.get_queryset().python()
-
-    def javascript(self):
-        return self.get_queryset().javascript()

@@ -72,12 +72,12 @@ def profile_create(request):
                 item = profile.save(commit=False)
                 item.user = request.user
                 item.save()
-                
+
                 for form in formset:
                     this = form.save(commit=False)
                     if this.skill == '':
-                        break        
-                    this.profile = item                   
+                        break
+                    this.profile = item
                     this.save()
 
                 messages.success(request, "Successfully Created.")
@@ -106,7 +106,7 @@ def profile_update(request, id=None):
                 profile.resume = item.resume
                 profile.recording = item.recording
                 profile.save()
-           
+
             return HttpResponseRedirect(profile.get_absolute_url())
         else:
             form = ProfileForm(instance=profile)
@@ -162,7 +162,7 @@ def skillupdate_view(request, id=None):
                 for skill in skills:
                     for form in formset:
                         # print(skill)
-                        item = form.save(commit=False) 
+                        item = form.save(commit=False)
                         print(form)
                         if skill.skill==item.skill and skill.exp==item.exp:
                             pass
@@ -175,9 +175,9 @@ def skillupdate_view(request, id=None):
                         else:
                             item.profile = profile
                             item.save()
-                                      
 
-                    return HttpResponseRedirect(profile.get_absolute_url()) 
+
+                    return HttpResponseRedirect(profile.get_absolute_url())
         else:
             formset = profile_formset(queryset=skills)
         context = {
@@ -197,30 +197,29 @@ def consultancy_view(request):
 
 
 def search_view(request):
-    if request.user.is_authenticated():        
+    if request.user.is_authenticated():
         if request.method == 'GET':
             queryset = Profile.objects.all()
             if request.GET.get('where'):
                 where = request.GET.get('where')
-                queryset = queryset.filter(location=where)
+                queryset = queryset.filter(location__icontains=where).distinct()
             if request.GET.get('from'):
                 how = request.GET.get('from')
-                queryset = queryset.filter(skills__exp=int(how))
+                queryset = queryset.filter(skills__exp__gte=int(how)).distinct()
             if request.GET.get('to'):
                 how = request.GET.get('to')
-                queryset = queryset.filter(skills__exp=int(how))
+                queryset = queryset.filter(skills__exp__lte=int(how)).distinct()
             if request.GET.get('which'):
                 which = request.GET.get('which')
-                queryset = queryset.filter(skills__skill__icontains=which)
-            # key = request.GET.get('which', None) or request.GET.get('q', None)
-            # # print(key)
-            # if 'python' in key:
-            #     queryset = queryset.python().distinct()
-            # elif 'javascript' in key:
-            #     queryset = queryset.javascript().distinct()
-            # else:
-            #     queryset = queryset.filter(Q(skills__skill__icontains=str(key))).distinct()
-            #     # print(queryset)
+                if 'python' in which:
+                    print("--------------")
+                    queryset = queryset.python().distinct()
+                    print(queryset)
+                elif 'javascript' in which:
+                    queryset = queryset.javascript().distinct()
+                else:
+                    queryset = queryset.filter(skills__skill__icontains=which).distinct()
+
             if not request.user.is_superuser:
                 queryset = queryset.filter(user=request.user)
 
@@ -230,4 +229,3 @@ def search_view(request):
             }
         return render(request, 'recruits/profile_list.html', context)
     return redirect("recruits:login")
-
