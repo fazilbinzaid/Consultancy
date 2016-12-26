@@ -1,9 +1,9 @@
 {% load static %}
 
 
-<div class="col-sm-1">
+<div class="col-sm-1 bgcolor affix side_bar">
 {% block sidebar %}
-<ul class="sidebar-nav">
+<ul class="sidebar-nav" media="screen">
   <label>Search Profiles here...</label>
   <form type='get' action="/search/">
     <br>
@@ -14,11 +14,11 @@
     <br>
     <label>With Experience</label>
     <li><label for="find_which">From :</label>
-    <input class='btn-sm col-xs-9' id="from_how" type="text" name="from"  placeholder="Years" ></li>
+    <input class='btn-sm col-xs-10' id="from_how" type="text" name="from"  placeholder="Years" ></li>
     <br>
     <br>
     <li><label for="find_which">To :</label>
-    <input class='btn-sm col-xs-9' id="to_how" type="text" name="to"  placeholder="Years" ></li>
+    <input class='btn-sm col-xs-10' id="to_how" type="text" name="to"  placeholder="Years" ></li>
     <br>
     <br>
     <br>

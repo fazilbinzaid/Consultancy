@@ -70,6 +70,14 @@ padding-right: 40px;
     padding: 0;
     list-style: none;
 }
+.bgcolor{
+  background:#3c763d;
+}
+.side_bar{
+  width: 10%;
+  height: 630px;
+  margin-top: -19px;
+}
 
 
 /*Downloaded CSS for table used at the list page.*/
