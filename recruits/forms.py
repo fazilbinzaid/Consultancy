@@ -28,7 +28,7 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ('name',
                   'email',
-                #   'skills',
+                  'designation',
                   'current_ctc',
                   'expected_ctc',
                   'location',

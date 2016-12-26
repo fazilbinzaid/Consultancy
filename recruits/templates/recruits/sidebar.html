@@ -1,8 +1,9 @@
 {% load static %}
 
 
-<div class="col-sm-1 bgcolor affix side_bar">
+<div class="col-sm-1 bgcolor affix side_bar custom-font">
 {% block sidebar %}
+{% if request.user.is_authenticated %}
 <ul class="sidebar-nav" media="screen">
   <label>Search Profiles here...</label>
   <form type='get' action="/search/">
@@ -27,5 +28,6 @@
     <button class='button-search' id="search_submit" type="submit" >Go</button>
   </form>
 </ul>
+{% endif %}
 {% endblock %}
 </div>

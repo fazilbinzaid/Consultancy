@@ -6,7 +6,12 @@
 </style>
 
 {% block content %}
-<div class='col-sm-10 col-sm-offset-1'>
+<nav class="breadcrumb">
+  <li><a class="breadcrumb-item" href="{% url 'questions:language-list' %}">Languages</a></li>
+  <li><a class="breadcrumb-item" href="{% url 'questions:language-detail' question.framework.language.id %}">Frameworks</a></li>
+  <li><a class="breadcrumb-item" href="{% url 'questions:question-list' question.framework.id %}">Questions</a></li>
+</nav>
+<div class='col-sm-10 col-sm-offset-1 custom-color'>
   <h4>Question No.{{ question.id }}</h4>
   <div class='col-sm-7 col-sm-offset-1'>
     <br>
@@ -24,7 +29,7 @@
 		<br>
 		<br>
 		<br>
-		
+
     </ul>
   </div>
 </div>

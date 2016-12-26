@@ -100,6 +100,7 @@ def profile_update(request, id=None):
                 item = form.save(commit=False)
                 profile.name = item.name
                 profile.email = item.email
+                profile.designation = item.designation
                 profile.current_ctc = item.current_ctc
                 profile.expected_ctc = item.expected_ctc
                 profile.notice_period = item.notice_period

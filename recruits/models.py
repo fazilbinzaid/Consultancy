@@ -6,6 +6,11 @@ from .managers import UserManager, ProfileQuerySet
 
 # Create your models here.
 
+CHOICES = (('Project Manager', 'Project Manager'), ('Developer', 'Developer'), ('Tester', 'Tester'),
+           ('Technical Lead', 'Technical Lead'), ('Hybrid', 'Hybrid'), ('DevOps', 'DevOps'),
+           ('Fresher', 'Fresher'), ('Project Coordinator', 'Project Coordinator'),( 'UI/UX Designer', 'UI/UX Designer'),
+           ('UI/UX Developer', 'UI/UX Developer'), ('HTML Developer', 'HTML Developer'),)
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=30)
@@ -45,7 +50,7 @@ class Profile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='profiles')
     name = models.CharField(max_length=40)
     email = models.EmailField()
-    # designation = models.CharField(max_length=20)
+    designation = models.CharField(max_length=20, choices=CHOICES,)
     location = models.CharField(max_length=20,)
     current_ctc = models.DecimalField(max_digits=3, decimal_places=2,)
     expected_ctc = models.DecimalField(max_digits=3, decimal_places=2,)

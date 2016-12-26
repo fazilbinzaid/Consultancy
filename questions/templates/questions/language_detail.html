@@ -1,0 +1,23 @@
+{% extends "recruits/base.html" %}
+
+
+{% block content %}
+<nav class="breadcrumb">
+  <li><a class="breadcrumb-item" href="{% url 'questions:language-list' %}">Languages</a></li>
+  <li><span class="breadcrumb-item active" >Frameworks</span></li>
+</nav>
+<br>
+<div class='col-sm-10 col-sm-offset-1 jumbotron'>
+{% if request.user.is_superuser %}
+<a class='col-sm-2 pull-right' href='{% url 'questions:framework-create' %}'>Add </a>
+{% endif %}
+
+  <h1 >Frameworks</h1>
+  <br>
+  <ul>
+    {% for framework in frameworks %}
+      <li><a href="{% url 'questions:question-list' framework.id %}">{{ framework.name }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
