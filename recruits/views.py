@@ -5,10 +5,7 @@ from .models import (CustomUser, Profile,
                      Skillset,
                      )
 from django.http import HttpResponseRedirect, Http404, HttpResponse
-from django.views.generic import (View,
-                                  ListView,
-                                  DetailView,
-                                  )
+from django.views.generic import (View,)
 from .forms import (ProfileForm,
                     UserLoginForm,
                     SkillsetForm,
@@ -213,13 +210,12 @@ def search_view(request):
             if request.GET.get('which'):
                 which = request.GET.get('which')
                 if 'python' in which:
-                    print("--------------")
                     queryset = queryset.python().distinct()
-                    print(queryset)
                 elif 'javascript' in which:
                     queryset = queryset.javascript().distinct()
                 else:
                     queryset = queryset.filter(skills__skill__icontains=which).distinct()
+            queryset = queryset.order_by('-time')
 
             if not request.user.is_superuser:
                 queryset = queryset.filter(user=request.user)
