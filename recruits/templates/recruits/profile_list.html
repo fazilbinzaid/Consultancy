@@ -6,7 +6,7 @@
 {% block content %}
 {% if not request.user.is_superuser %}
 <br>
-<a class='pull-right col-sm-2 col-sm-offset-1' href="{% url 'recruits:profile-create' %}">Create Profile</a>
+<a class='pull-right col-sm-2 col-sm-offset-1 custom-color' href="{% url 'recruits:profile-create' %}">Create Profile</a>
 {% endif %}
 
 
@@ -38,9 +38,9 @@
 		<td class='text-align-center'>{{ profile.notice_period }} Days</td>
 	</tr>
 {% endfor %}
-</table>    
+</table>
 </div>
-	 
+
 {% endblock %}
 
 
@@ -82,7 +82,7 @@
 
 
 
-<!-- 
+<!--
  <h2 class="col-sm-6 col-sm-offset-1">Profiles</h2>
 	  <div class='col-sm-6 col-sm-offset-1'>
 	  <ol>

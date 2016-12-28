@@ -37,7 +37,17 @@ class ProfileForm(forms.ModelForm):
                   'recording',
                   )
 
+
     def clean(self):
+        current_ctc = self.cleaned_data.get('current_ctc')
+        expected_ctc = self.cleaned_data.get('expected_ctc')
+        notice_period = self.cleaned_data.get('notice_period')
+        if int(current_ctc) < 0 or int(expected_ctc) < 0:
+            raise forms.ValidationError("Enter a valid cost to company.")
+        if int(expected_ctc) < current_ctc:
+            raise forms.ValidationError("Expected CTC can't be less than Current one.")
+        if int(notice_period) < 30:
+            raise forms.ValidationError("Least notice period must be 30 days.")
         # name = self.cleaned_data.get('name')
         # subject = "Alert to new profile Update"
         # contact_message = "New profile with name %s have been created"%(name)
@@ -49,8 +59,6 @@ class ProfileForm(forms.ModelForm):
         #           to_email,
         #           fail_silently=True)
 
-        cleaned_data = super(ProfileForm, self).clean()
-        return cleaned_data
 
 class UserLoginForm(forms.Form):
     email = forms.EmailField()
@@ -85,10 +93,12 @@ class CustomInlineFormset(BaseInlineFormSet, forms.ModelForm):
                     form.fields[field].widget.attrs.update({'class': 'form-control'})
 
 
-    # def clean(self):
-    #     for form in self.forms:
-    #         data = form.cleaned_data
-    #         super(CustomInlineFormset, self).clean()
+    def clean(self):
+        for form in self.forms:
+            exp = form.cleaned_data.get('exp')
+            if int(exp) < 0:
+                raise forms.ValidationError("Enter a valid number for years of experience.")
+            return super(CustomInlineFormset, self).clean()
 
 class CustomSkillFormset(forms.BaseModelFormSet):
 
@@ -101,9 +111,10 @@ class CustomSkillFormset(forms.BaseModelFormSet):
 
     def clean(self):
         for form in self.forms:
-            data = form.cleaned_data
-            print(data)
-        super(CustomSkillFormset, self).clean()
+            exp = form.cleaned_data.get('exp')
+            if int(exp) < 0:
+                raise ValidationError("Enter a valid number for years of experience.")
+        return super(CustomSkillFormset, self).clean()
 
 
 

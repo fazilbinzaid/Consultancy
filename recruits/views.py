@@ -21,10 +21,9 @@ from django.db.models import Q
 
 # Create your views here.
 
-class Home(View):
-    def get(self, request, *args, **kwargs):
-        greeting = "Welcome"
-        return render(request, 'recruits/home.html', {'greeting': greeting})
+def home(request):
+    greeting = "Welcome"
+    return render(request, 'recruits/home.html', {'greeting': greeting})
 
 
 def profile_list(request):

@@ -1,4 +1,4 @@
-from .views import (Home,
+from .views import (home,
                     profile_list,
                     profile_detail,
                     profile_create,
@@ -24,7 +24,7 @@ urlpatterns = [
         url(r'login/$', login_view, name='login'),
         url(r'logout/$', logout_view, name='logout'),
         url(r'skill-update/(?P<id>[0-9]{1,2})/$', skillupdate_view, name='skill-update'),
-        url(r'home/$', Home.as_view(), name='home'),
+        url(r'home/$', home, name='home'),
         url(r'users/$', consultancy_view, name='consultancy'),
         url(r'search/$', search_view, name='search'),
 
