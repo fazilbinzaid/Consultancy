@@ -24,6 +24,7 @@ class Framework(models.Model):
 
 
 class Question(models.Model):
+    # language = models.ForeignKey(Language, related_name='related_questions')
     framework = models.ForeignKey(Framework, related_name='questions')
     question_text = models.TextField()
 

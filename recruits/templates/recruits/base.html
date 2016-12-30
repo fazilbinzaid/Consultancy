@@ -31,16 +31,14 @@
 <body>
 
 {% include 'recruits/navbar.html' %}
+<br><br>
 
 <div class='container-fluid'>
-  <div class="row">
-        {% include 'recruits/sidebar.html' %}
+        <!-- {% include 'recruits/sidebar.html' %} -->
         <div class="col-sm-11 col-sm-offset-1 detail ">
         {% block content %}{% endblock %}
         </div>
-      </div>
-
-    </div>
+</div>
 
 {% include 'recruits/javascript.html' %}
 

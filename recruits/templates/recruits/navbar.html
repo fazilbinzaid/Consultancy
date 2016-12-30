@@ -48,3 +48,24 @@
     </div><!--/.nav-collapse -->
   </div>
 </nav>
+<nav class="navbar navbar-default sec-nav nav_bar affix">
+  <div class="container">
+    <a class="navbar-brand">Search</a>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <form type='get' action="/search/">
+          <!-- <label for="find_where">Location :</label> -->
+          <input class='search-form first-pad src-btn col-sm-2' id="find_where" type="text" name="where" placeholder="Location" >
+          <!-- <label>With Experience</label> -->
+          <!-- <label for="from_how">From :</label> -->
+          <input class='search-form src-btn col-sm-1' id="from_how" type="text" name="from"  placeholder="From - Years" >
+          <!-- <label for="to_how">To :</label> -->
+          <input class='search-form src-btn col-sm-1' id="to_how" type="text" name="to"  placeholder="To - Years" >
+          <!-- <label for="find_which">Skill :</label> -->
+          <input class='search-form src-btn col-sm-3' id="find_which" type="text" name="which"  placeholder="Skill" >
+          <button class='acc-align' id="search_submit" type="submit" >Go</button>
+        </form>
+      </ul>
+    </div>
+  </div>
+</nav>

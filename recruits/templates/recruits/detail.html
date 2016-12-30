@@ -44,17 +44,17 @@
 
                       <tr>
                         <td>Current CTC </td>
-                        <td>: {{ profile.current_ctc }}</td>
+                        <td>: {{ profile.current_ctc }} lkh (per annum)</td>
                       </tr>
 
                       <tr>
                         <td>Expected CTC </td>
-                        <td>: {{ profile.expected_ctc }}</td>
+                        <td>: {{ profile.expected_ctc }} lkh (per annum)</td>
                       </tr>
 
                       <tr>
                         <td>Notice Period </td>
-                        <td>: {{ profile.notice_period }}</td>
+                        <td>: {{ profile.notice_period }} Days</td>
                       </tr>
 
                       <tr>
@@ -97,8 +97,8 @@
       <br>
       <br>
       <br>
-      <a class='btn btn-success col-sm-2' href='update/' role='button'>Update Profile</a>
-      <a class='btn btn-danger pull-right col-sm-2' href='delete/' role='button'>Delete</a><br>
+      <a class='btn btn-success col-sm-2' href='{% url "recruits:profile-update" profile.id %}' role='button'>Update Profile</a>
+      <a class='btn btn-danger col-sm-2 col-sm-offset-6' href='{% url "recruits:profile-delete" profile.id %}' role='button'>Delete</a><br>
       <!-- <a class='btn btn-danger pull-right col-sm-2' href='/skillupdate/{{ profile.id }}/' role='button'>Edit Skill</a> -->
 
     </div>

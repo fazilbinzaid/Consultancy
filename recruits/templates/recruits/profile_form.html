@@ -13,33 +13,87 @@
 
 <fieldset>
 
-<div class='col-sm-4 col-sm-offset-3 custom-color'>
+<div class='col-sm-11 col-sm-offset-1 custom-color'>
   <h1>Profile</h1>
-  <br>
   <br>
   <form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
 
+    <table id="profile">{{ profile.non_field_errors }}
 
-    {{ profile|crispy }}
+      <tr>
+        <td class="custom-padding">
+          {{ profile.name.errors }}
+          <label for="{{ profile.name.id_for_label }}">Name</label>
+          {{ profile.name }}
+        </td>
+        <td class="custom-padding">
+          {{ profile.email.errors }}
+          <label for="{{ profile.email.id_for_label }}">Email</label>
+          {{ profile.email }}
+        </td>
+        <td class="custom-padding">
+          {{ profile.designation.errors }}
+          <label for="{{ profile.designation.id_for_label }}">Designation</label>
+          {{ profile.designation }}
+        </td>
+      </tr>
+      <tr>
+        <td class="custom-padding">
+          {{ profile.location.errors }}
+          <label for="{{ profile.location.id_for_label }}">Location</label>
+          {{ profile.location }}
+        </td>
+      </tr>
+      <tr>
+        <td class="custom-padding int-pad">
+          {{ profile.current_ctc.errors }}
+          <label for="{{ profile.current_ctc.id_for_label }}">Current CTC</label>
+          {{ profile.current_ctc }}
+        </td>
+        <td class="custom-padding int-pad">
+          {{ profile.expected_ctc.errors }}
+          <label for="{{ profile.expected_ctc.id_for_label }}">Expected CTC</label>
+          {{ profile.expected_ctc }}
+        </td>
+        <td class="custom-padding int-pad">
+          {{ profile.notice_period.errors }}
+          <label for="{{ profile.notice_period.id_for_label }}">Notice Period</label>
+          {{ profile.notice_period }}
+        </td>
+      </tr>
+      <tr>
+        <td class="custom-padding">
+          {{ profile.resume.errors }}
+          <label for="{{ profile.resume.id_for_label }}">Resume</label>
+          {{ profile.resume }}
+        </td>
+        <td class="custom-padding">
+          {{ profile.recording.errors }}
+          <label for="{{ profile.recording.id_for_label }}">Interview Recording</label>
+          {{ profile.recording }}
+        </td>
+      </tr>
+    </table>
 
-    {{ skill.management_form }}
-    {% for form in skill.forms %}
-    {{ form.non_field_errors }}
+
     <table id="skill">
-            <p>
             <tr>
-              <td>
-                <label for="skill">Skill :</label>
-               {{ form.skill }}
+              {{ skill.management_form }}
+              {% for form in skill.forms %}
+              {{ form.non_field_errors }}
+              <td class="custom-padding">
+                {{ form.skill.errors }}
+                <label for="skill">Skill {{ forloop.counter }}:</label>
+                {{ form.skill }}
               </td>
-              <td>
+              <td class="custom-padding">
+                {{ form.exp.errors }}
                 <label for="expnce">Experience (years) :</label>
-               {{ form.exp }}
+                {{ form.exp }}
               </td>
-                <!-- <td>{{ form.exp }}</td> -->
+              {% endfor %}
             </tr>
-            </p>
-            {% endfor %}
+
     </table>
     <br>
     <p>

@@ -19,7 +19,19 @@ class SkillsetForm(forms.ModelForm):
                   'exp',
                   )
 
+    def clean_exp(self):
+        exp = self.cleaned_data.get('exp')
+        if exp < 30:
+            raise forms.ValidationError("Enter a valid number for years of experience.")
+        return super(SkillsetForm, self).clean()
+
+
 class ProfileForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
 
     current_ctc = forms.DecimalField(label='Current CTC (per annum)')
     expected_ctc = forms.DecimalField(label='Expected CTC (per annum)')
@@ -78,6 +90,12 @@ class UserLoginForm(forms.Form):
                 raise forms.ValidationError("Incorrect the Password")
             if not user.is_active:
                 raise forms.ValidationError("This user is no longer is active")
+        elif email and not password:
+            raise forms.ValidationError("Enter a password please.")
+        elif not email and password:
+            raise forms.ValidationError("You dumb??.. Enter the email.")
+        else:
+            raise forms.ValidationError("Fill the required fields.")
         return super(UserLoginForm, self).clean()
 
 
@@ -120,7 +138,7 @@ class CustomSkillFormset(forms.BaseModelFormSet):
 
 profile_formset = inlineformset_factory(Profile, Skillset,
                                     fields=('skill','exp',),
-                                    # extra=2,
+                                    extra=2,
                                     # max_num=3,
                                     formset=CustomInlineFormset,
                                     can_delete=True,
