@@ -8,7 +8,8 @@ from .views import (home,
                     logout_view,
                     skillupdate_view,
                     consultancy_view,
-                    search_view,
+                    search_form_view,
+                    filter_view
                     )
 from django.conf.urls import include, url
 
@@ -26,7 +27,8 @@ urlpatterns = [
         url(r'skill-update/(?P<id>[0-9]*)/$', skillupdate_view, name='skill-update'),
         url(r'home/$', home, name='home'),
         url(r'users/$', consultancy_view, name='consultancy'),
-        url(r'search/$', search_view, name='search'),
+        url(r'find/$', search_form_view, name='search'),
+        url(r'filter/$', filter_view, name='filter'),
 
 
 ]

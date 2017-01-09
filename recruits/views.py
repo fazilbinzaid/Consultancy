@@ -193,7 +193,7 @@ def consultancy_view(request):
     return render(request, 'recruits/profile_list.html', context)
 
 
-def search_view(request):
+def search_form_view(request):
     if request.user.is_authenticated():
         if request.method == 'GET':
             queryset = Profile.objects.all()
@@ -222,6 +222,23 @@ def search_view(request):
         context = {
         'profiles': queryset,
         # 'key': key,
+            }
+        return render(request, 'recruits/profile_list.html', context)
+    return redirect("recruits:login")
+
+def filter_view(request):
+    if request.user.is_authenticated():
+        if request.method == 'GET':
+            queryset = Profile.objects.all()
+            q = request.GET.get('q')
+            queryset.filter(Q(location__icontains=q) |
+                            Q(designation__icontains=q) |
+                            Q(skills__skill__icontains=q)
+                            )
+            if not request.user.is_superuser:
+                queryset = queryset.filter(user=request.user)
+        context = {
+        'profiles': queryset,
             }
         return render(request, 'recruits/profile_list.html', context)
     return redirect("recruits:login")

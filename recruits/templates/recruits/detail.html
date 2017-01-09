@@ -98,7 +98,9 @@
       <br>
       <br>
       <a class='btn btn-success col-sm-2' href='{% url "recruits:profile-update" profile.id %}' role='button'>Update Profile</a>
+      {% if request.user.is_superuser %}
       <a class='btn btn-danger col-sm-2 col-sm-offset-6' href='{% url "recruits:profile-delete" profile.id %}' role='button'>Delete</a><br>
+      {% endif %}
       <!-- <a class='btn btn-danger pull-right col-sm-2' href='/skillupdate/{{ profile.id }}/' role='button'>Edit Skill</a> -->
 
     </div>

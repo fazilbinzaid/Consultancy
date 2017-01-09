@@ -48,12 +48,12 @@
     </div><!--/.nav-collapse -->
   </div>
 </nav>
-<nav class="navbar navbar-default sec-nav nav_bar affix">
+<nav class="navbar navbar-default navbar-static-top sec-nav nav_bar affix">
   <div class="container">
     <a class="navbar-brand">Search</a>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <form type='get' action="/search/">
+        <form type='get' action="{% url 'recruits:search' %}">
           <!-- <label for="find_where">Location :</label> -->
           <input class='search-form first-pad src-btn col-sm-2' id="find_where" type="text" name="where" placeholder="Location" >
           <!-- <label>With Experience</label> -->

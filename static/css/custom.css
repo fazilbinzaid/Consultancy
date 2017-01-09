@@ -108,7 +108,7 @@ padding-right: 40px;
   border:1px solid black;
 }
 .sec-nav{
-  margin-top: 50px
+  margin-top: 51px
 }
 .search-form {
     display: block;
@@ -126,6 +126,10 @@ padding-right: 40px;
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.bold-blue {
+	font-weight: bold;
+	color: #0277BD;
 }
 /*Downloaded CSS for table used at the list page.*/
 

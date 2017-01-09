@@ -11,22 +11,31 @@
 
 
 <div class="box-table">
-<table data-fn="contacts">
+<table id="table"
+			 data-toggle="table"
+			 data-search="true"
+			 data-filter-control="true"
+			 data-show-export="true"
+			 data-click-to-select="true"
+			 data-toolbar="#toolbar">
 	<thead>
 	<tr>
-		<th>Name</th>
+		<th data-field="date" data-filter-control="select" data-sortable="true">Date</th>
+		<th data-field="date" data-filter-control="select" data-sortable="true">Name</th>
 		{% if request.user.is_superuser %}
 		<th>Consultancy</th>
 		{% endif %}
-		<th>Location</th>
-		<th>Designation</th>
+		<th data-field="date" data-filter-control="select" data-sortable="true">Location</th>
+		<th data-field="date" data-filter-control="select" data-sortable="true">Designation</th>
 		<th>Skills</th>
 		<th>Current CTC</th>
+		<th>Expected CTC</th>
 		<th>Notice Period</th>
 	</tr>
 	</thead>
 {% for profile in profiles %}
 	<tr>
+		<td>{{ profile.time|date:"d-m-Y" }}</td>
 		<td><a href='/profiles/{{ profile.id }}'>{{ profile.name|upper }}</td>
 		{% if request.user.is_superuser %}
 		<td>{{ profile.user.name }}</td>
@@ -35,6 +44,7 @@
 		<td>{{ profile.designation }}</td>
 		<td>{% for item in profile.skills.all %}{{ item.skill }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
 		<td class='text-align-center'>{{ profile.current_ctc }}</td>
+		<td class='text-align-center'>{{ profile.expected_ctc }}</td>
 		<td class='text-align-center'>{{ profile.notice_period }} Days</td>
 	</tr>
 {% endfor %}
